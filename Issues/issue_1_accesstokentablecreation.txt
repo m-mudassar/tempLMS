@@ -1,0 +1,23 @@
+The issue faced is that, 
+
+Migrations are deleted. 
+The "create_personal_access_tokens_table" migration is deleted from migration folder 
+
+but when we run artisan migrate command this migration is run and table is created.
+
+Reason: 
+It is because a sanctum dependency comes pre-installed in the laravel installation and in that this migration is essentially run.
+
+Remedy:
+There are 2 solutions
+1. either uninstall sanctum dependency from composer 
+	composer remove laravel/sanctum
+2. or add a line for ignoring migrations in 
+App\Providers\AppServiceProvider.php
+
+	use Laravel\Sanctum\Sanctum;
+
+	public function register()
+	{
+		Sanctum::ignoreMigrations();
+	}
